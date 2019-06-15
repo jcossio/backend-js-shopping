@@ -1,0 +1,14 @@
+{
+  "name": "backend-js-shopping",
+  "version": "1.0.0",
+  "description": "sample shopping project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "medellinjs"
+  ],
+  "author": "Jorge Cossio",
+  "license": "MIT"
+}
