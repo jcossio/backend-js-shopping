@@ -61,16 +61,37 @@ function show(req, res) {
 function put(req, res) {
   // console.log(req.body);
   return Product.findByIdAndUpdate(req.params.id, req.body).exec()
-    .then(handleEntityNotFound(res)) // Check if nothing found by Product.findByIdAndUpdate
+    .then(handleEntityNotFound(res)) // Check nothing found by Product.findByIdAndUpdate
     .then(show(req, res)) // call show method to display record updated contents
     .catch(handleError(res));
 }
 
 function remove(req, res) {
-  return Product.findByIdAndDelete(req.params.id).exec()
-    .then(handleEntityNotFound(res)) // check if it exists
-    .then(res.status(200).end())
-    .catch(handleError(res));
+  // One way of removing the product
+  return Product.findByIdAndDelete(req.params.id, (err, product) => {
+    if (err) return handleError(res);
+    if (!product) {
+      return res.status(404).end(); // Not found then return 404
+    } else {
+      return res.status(200).send(); // Deleted. Return 200
+    }
+  });
+
+  /* Second way of removing the product
+  // Find by Id
+  return Product.findById(req.params.id, (err, product) => {
+    if (err) return handleError(res);
+    // Check if found
+    if (product == null) {
+      return res.status(404).end();
+    }
+    // Delete now
+    Product.findByIdAndDelete(req.params.id).exec()
+      .then(res.status(200).end())
+      .catch(handleError(res));
+    return null;
+  });
+  */
 }
 
 module.exports = {
