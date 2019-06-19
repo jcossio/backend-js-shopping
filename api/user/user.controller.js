@@ -81,9 +81,29 @@ function create(req, res) {
     .catch(validationError(res));
 }
 
+/**
+ * Eliminates a user from DB.
+ *
+ * @param {request} req request object
+ * @param {respose} res respose object
+ */
+function remove(req, res) {
+  // Remove the user
+  // Also need to invalidate the token + session
+  return User.findByIdAndDelete(req.params.id, (err, user) => {
+    if (err) return handleError(res);
+    if (!user) {
+      return res.status(404).end(); // Not found then return 404
+    } else {
+      return res.status(200).send(); // Deleted. Return 200
+    }
+  });
+}
+
 module.exports = {
   index,
   create,
   show,
   showme,
+  remove,
 };

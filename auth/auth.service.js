@@ -12,7 +12,7 @@ const config = {
   secrets: {
     session: 'w0rksh0p-full5tack-j4v45cr1pt',
   },
-  userRoles: ['admin', 'manager', 'user'],
+  userRoles: ['user', 'manager', 'admin'],
 };
 
 const validateJwt = expressJwt({
