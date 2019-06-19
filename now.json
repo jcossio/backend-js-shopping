@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "name": "shopping-cart-api",
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@now/node-server"
+    }
+  ],
+  "routes": [
+    {
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "X-Requested-With, Content-Type, Accept"
+      },
+      "src": "/.*",
+      "dest": "/index.js"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "PORT": "80",
+    "MONGODB_URI": "mongodb://admin:admin@cluster0-shard-00-00-tsryk.mongodb.net:27017,cluster0-shard-00-01-tsryk.mongodb.net:27017,cluster0-shard-00-02-tsryk.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority"
+  }
+}
