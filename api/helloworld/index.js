@@ -3,7 +3,7 @@
  */
 
 const { Router } = require('express');
-const controller = require('./helloWorld.controller');
+const controller = require('./helloworld.controller');
 
 const router = new Router();
 

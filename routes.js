@@ -3,18 +3,16 @@
  */
 
 // Import Endpoints
-const helloWorld = require('./api/helloWorld');
+const helloWorld = require('./api/helloworld');
 const product = require('./api/product');
+const user = require('./api/user');
+const auth = require('./auth');
 
 module.exports = (app) => {
-
   // Insert routes below
   app.use('/api/helloworld', helloWorld);
   app.use('/api/products', product);
-  // Next routes
-  // Endpoints in plural
-  // app.use('/api/users', user);
-
-  //// OJOOOO mirar cloudinary!!!!
-
+  app.use('/api/users', user);
+  app.use('/auth', auth);
+  // OJOOOO mirar cloudinary!!!!
 };
