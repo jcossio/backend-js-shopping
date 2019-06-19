@@ -13,6 +13,25 @@ function handleError(res, statusCode) {
   return err => res.status(statusCodeLocal).send(err);
 }
 
+function handleEntityNotFound(res) {
+  return (entity) => {
+    if (!entity) {
+      res.status(404).end();
+      return null;
+    }
+    return entity;
+  };
+}
+
+function respondWithResult(res, code) {
+  const statusCode = code || 200;
+  return (entity) => {
+    if (entity) {
+      res.status(statusCode).json(entity); // JSONify
+    }
+  };
+}
+
 /**
  * Get list of users
  * restriction: 'admin'
@@ -20,6 +39,25 @@ function handleError(res, statusCode) {
 function index(req, res) {
   return User.find({}, '-salt -password').exec()
     .then(users => res.status(200).json(users))
+    .catch(handleError(res));
+}
+
+// Gets a single product from the DB
+function show(req, res) {
+  // Unos de los metodos Busqueda
+  return User.findById(req.params.id, '-salt -password').exec() // Do not return some fields
+    .then(handleEntityNotFound(res)) // Check if nothing found by Product.findById and placed on res
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
+
+function showme(req, res) {
+  // Localizarme segun info obtenida del token
+  // Unos de los metodos Busqueda
+  return User.findById('5d0a9993a9841e04200a47cf', '-salt -password').exec() // Do not return some fields
+    .then(handleEntityNotFound(res)) // Check if nothing found by Product.findById and placed on res
+    .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
@@ -46,4 +84,6 @@ function create(req, res) {
 module.exports = {
   index,
   create,
+  show,
+  showme,
 };

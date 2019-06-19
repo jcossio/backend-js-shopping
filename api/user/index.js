@@ -10,6 +10,8 @@ const auth = require('./../../auth/auth.service');
 const router = new Router();
 
 router.get('/', auth.isAuthenticated(), controller.index);
+router.get('/me', controller.showme);
+router.get('/:id', auth.isAuthenticated(), controller.show);
 router.post('/', controller.create);
 
 module.exports = router;
