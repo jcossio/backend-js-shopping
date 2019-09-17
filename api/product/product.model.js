@@ -3,7 +3,7 @@
  */
 
 
- // Require mongoose
+// Require mongoose
 const mongoose = require('mongoose');
 
 // Constructor
