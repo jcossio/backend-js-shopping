@@ -8,44 +8,26 @@ const express = require('express');
 const http = require('http');
 
 const { ApolloServer, gql } = require('apollo-server');
+const Product = require('./api/product/product.model');
 
 const mongoose = require('mongoose');
 const expressConfig = require('./config/express');
 const routeConfig = require('./routes');
 const config = require('./config/environment');
 
-// gql nos facilita las cosas
-// se le da un nombre ej hello si tiene parametros se le pone parentesis: hello()
-// Luego lo que retorna ejemplo string. Si es obligatorio entonces le ponemos admiracion
-const typeDefs = gql`
-  type Query {
-    hello: String!
-  }
-`;
+const schema = require('./graphql');
 
-// Definicion del resolver
-const resolvers = {
-  Query: {
-    // Esto es una funcion
-    // Primer parametro es un root que es el registro actual que estoy trabajando
-    // toda la data del registro que estoy trabajando
-    // Segundo parametro son los parametros que tiene el query si es que tiene.
-    // Tercer parametro es lo que llega desde el servidor para no importar nada
-    // Ejemplo en el contexto pasar si el usuario esta autenticado o no.
-    // Ultimo parametro es la info del query esquema
-    //
-    hello(_, params, context, info) {
-      // Siempre hay que retornar algo segun el esquema
-      return 'Hola MedellinJS'
-    }
-  }
-}
 
 // Graphql necesita un esquema para poder lanzar un servidor. Entonces le pasamos typedefs
 // Y deberia tener un resolver tambien.
 // Aqui tambien se puede especificar un formato de error con:
 // formatError: (err)
-const graphqlServer = new ApolloServer({ typeDefs, resolvers });
+const graphqlServer = new ApolloServer({
+   schema,
+   dataSources: () => {
+     Product,
+   },
+   });
 
 // Connect to MongoDB
 mongoose.connect(config.mongo.uri, { useNewUrlParser: true, useFindAndModify: false });
