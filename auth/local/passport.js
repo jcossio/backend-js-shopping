@@ -1,9 +1,10 @@
-/**
- * Auth Local passport configuration
- */
 
 const passport = require('passport');
+
+// Local authorization strategy (we handle the user info ourselves)
 const LocalStrategy = require('passport-local').Strategy;
+// Google authorizaton strategy (through google)
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 function localAuthenticate(User, email, password, done) {
   User.findOne({ email: email.toLowerCase() }).exec()
@@ -26,6 +27,7 @@ function localAuthenticate(User, email, password, done) {
     .catch(err => done(err));
 }
 
+// Set the passport strategy to be a Local Strategy
 function setup(User) {
   passport.use(new LocalStrategy({
     usernameField: 'email',

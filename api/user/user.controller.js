@@ -89,6 +89,9 @@ function create(req, res) {
  */
 function remove(req, res) {
   // Remove the user
+
+  // Check if the user has the admin role
+
   // Also need to invalidate the token + session
   return User.findByIdAndDelete(req.params.id, (err, user) => {
     if (err) return handleError(res);

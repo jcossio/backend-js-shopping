@@ -13,6 +13,5 @@ router.get('/', auth.isAuthenticated(), controller.index);
 router.get('/me', auth.isAuthenticated(), controller.showme);
 router.get('/:id', auth.isAuthenticated(), controller.show);
 router.post('/', controller.create);
-router.delete('/:id', auth.hasRole('admin'), controller.remove);
-
+router.delete('/:id', auth.isAuthenticated() && auth.hasRole('admin'), controller.remove);
 module.exports = router;
